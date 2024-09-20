@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansh Yadav - Professional Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        #stars-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: transparent;
+            position: relative;
+        }
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .download-resume {
+            font-size: 16px;
+            background-color: rgba(68, 68, 68, 0.5);
+            padding: 10px 15px;
+            border-radius: 0 0 10px 10px;
+            position: absolute;
+            top: 6px;
+            right: 20px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .download-resume:hover {
+            background-color: rgba(68, 68, 68, 0.7);
+        }
+        .download-resume::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background-color: rgba(68, 68, 68, 0.5);
+            border-radius: 10px 10px 0 0;
+        }
+        .comet-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .comet-icon:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            text-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff, 0 0 35px #00ffff;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .header-container {
+            position: relative;
+            margin-bottom: 50px;
+        }
+        .smoke-grey-div {
+            position: absolute;
+            top: calc(50% - 45px);  /* Shifted upwards by 45px */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background-color: rgba(128, 128, 128, 0.3);
+            border-radius: 20px;
+            z-index: 0;
+        }
+        .header {
+            text-align: center;
+            font-size: 54px;
+            font-weight: 700;
+            background: linear-gradient(to bottom, white 50%, #ffcccc 50%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            letter-spacing: 2px;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .header:hover {
+            transform: scale(0.95);
+        }
+        .section {
+            margin-bottom: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            overflow: hidden;
+        }
+        .section:hover {
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #ff7f7f;
+            border-bottom: 2px solid #ff7f7f;
+            padding-bottom: 10px;
+        }
+        .experience-item {
+            margin-bottom: 35px;
+        }
+        .experience-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #ff5f5f;
+        }
+        .experience-date {
+            font-style: italic;
+            color: #b3b3b3;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .experience-description {
+            line-height: 1.8;
+            color: #e0e0e0;
+        }
+        .skill-category {
+            margin-bottom: 25px;
+        }
+        .skill-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #ff5f5f;
+        }
+        .skill-list {
+            margin-left: 20px;
+            color: #e0e0e0;
+        }
+        .certification-item {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+        }
+        .certification-item:before {
+            content: '\f19d';
+            font-family: 'Font Awesome 5 Free';
+            position: absolute;
+            left: 0;
+            color: #ff7f7f;
+        }
+        /* Different glow for each section */
+        .section:nth-child(1):hover {
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 0 30px rgba(255, 69, 0, 0.6); /* Professional Experience: Energetic orange glow */
+        }
+        .section:nth-child(2):hover {
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 0 30px rgba(0, 191, 255, 0.6); /* Education: Scholarly blue glow */
+        }
+        .section:nth-child(3):hover {
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 0 30px rgba(50, 205, 50, 0.6); /* Skills: Vibrant green glow */
+        }
+        .section:nth-child(4):hover {
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 0 30px rgba(255, 215, 0, 0.6); /* Certifications: Achievement gold glow */
+        }
+        .certification-item:hover {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 215, 0, 0.4); /* Certifications: Subtle gold glow */
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        /* Contrasting glow behind each section */
+        .section:nth-child(1)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, rgba(0, 255, 255, 0) 70%); /* Cyan glow */
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .section:nth-child(2)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(255, 165, 0, 0.3) 0%, rgba(255, 165, 0, 0) 70%); /* Orange glow */
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .section:nth-child(3)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(255, 0, 255, 0.3) 0%, rgba(255, 0, 255, 0) 70%); /* Magenta glow */
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .section:nth-child(4)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(0, 128, 0, 0.3) 0%, rgba(0, 128, 0, 0) 70%); /* Green glow */
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .section:hover::before {
+            opacity: 1;
+        }
+        .section.courses:hover {
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 0 30px rgba(220, 20, 60, 0.6); /* Crimson glow */
+        }
+        .section.courses::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(220, 20, 60, 0.3) 0%, rgba(220, 20, 60, 0) 70%); /* Crimson glow */
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .section.courses:hover::before {
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+            .header {
+                font-size: 42px;
+            }
+            .section-title {
+                font-size: 24px;
+            }
+            .experience-title {
+                font-size: 20px;
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="stars-background"></div>
+    <header>
+        <div class="profile-pic">
+            <a href="/index.html"><img alt="Profile picture of ANSH YADAV" src="ansh.jpg"/></a>
+        </div>
+        <a href="/index.html" class="comet-icon">
+            <i class="fas fa-meteor"></i>
+        </a>
+        <a href="Ansh Yadav - Resume.pdf" class="download-resume" download>
+            Download Resume
+        </a>
+    </header>
+    <div class="container">
+        <div class="header-container">
+            <div class="smoke-grey-div"></div>
+            <h1 class="header">About</h1>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="experience-item">
+                <h3 class="experience-title">Web Developer</h3>
+                <p class="experience-date">2024 - Present</p>
+                <p class="experience-description">
+                    As a dedicated web developer, I've embarked on a journey of continuous growth and innovation. From mastering the fundamentals of HTML and CSS to delving into complex programming paradigms, I've invested countless hours in refining my skills and elevating my craft. Throughout my career, I've had the privilege of collaborating with diverse clients across various industries, each presenting unique challenges that have broadened my expertise. My unwavering commitment to delivering exceptional quality and surpassing client expectations has been the cornerstone of my professional ethos.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Education</h2>
+            <div class="experience-item">
+                <h3 class="experience-title">Jeevandhara Convent School</h3>
+                <p class="experience-date">2022 - 2024</p>
+                <p class="experience-description">
+                    These formative years were crucial in shaping my academic foundation and personal growth. I immersed myself in a diverse curriculum, with a strong focus on physics, chemistry, mathematics, computer science, and English. This comprehensive education not only broadened my intellectual horizons but also laid a solid groundwork for my future academic pursuits and professional aspirations.
+                </p>
+            </div>
+            <div class="experience-item">
+                <h3 class="experience-title">Jeevandhara Convent School</h3>
+                <p class="experience-date">2021 - 2022</p>
+                <p class="experience-description">
+                    This period marked an intensive academic journey, where I delved deep into core subjects including science, English, mathematics, history, civics, geography, and Hindi. Complementing my academic pursuits, I actively engaged in a variety of extracurricular activities and projects, which significantly enhanced my practical skills and fostered a well-rounded development.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Skills</h2>
+            <div class="skill-category">
+                <h3 class="skill-title">Programming Languages</h3>
+                <p class="skill-list">Java, Python, JavaScript, C#, SQL</p>
+            </div>
+            <div class="skill-category">
+                <h3 class="skill-title">Web Development</h3>
+                <p class="skill-list">HTML5, CSS3, JavaScript, Responsive Design, React.js, Node.js, Express.js, MongoDB</p>
+            </div>
+            <div class="skill-category">
+                <h3 class="skill-title">Game Development</h3>
+                <p class="skill-list">Unity, Game Mechanics, 2D/3D Graphics, Game Physics, Prototyping</p>
+            </div>
+            <div class="skill-category">
+                <h3 class="skill-title">Database Management</h3>
+                <p class="skill-list">SQL, Database Design, Data Manipulation</p>
+            </div>
+            <div class="skill-category">
+                <h3 class="skill-title">Computer Science Fundamentals</h3>
+                <p class="skill-list">Algorithms, Data Structures, Problem Solving</p>
+            </div>
+            <div class="skill-category">
+                <h3 class="skill-title">Software Tools</h3>
+                <p class="skill-list">Visual Studio Code, Git, Figma, PowerToys on Windows 11</p>
+            </div>
+            <div class="skill-category">
+                <h3 class="skill-title">Creative Writing</h3>
+                <p class="skill-list">Poetry, Novel Writing, Storytelling</p>
+            </div>
+            <div class="skill-category">
+                <h3 class="skill-title">Languages</h3>
+                <p class="skill-list">English (Fluent), Hindi (Fluent)</p>
+            </div>
+        </div>
+
+        <div class="section courses">
+            <h2 class="section-title">Certifications</h2>
+            <div class="certification-item">
+                <p>CS50's Introduction to Computer Science — Harvard University</p>
+            </div>
+            <div class="certification-item">
+                <p>CS50's Introduction to Programming with Python — Harvard University</p>
+            </div>
+            <div class="certification-item">
+                <p>CS50's Introduction to Databases with SQL — Harvard University</p>
+            </div>
+            <div class="certification-item">
+                <p>CS50's Introduction to Game Development — Harvard University</p>
+            </div>
+            <div class="certification-item">
+                <p>Introduction to Game Design — MIT</p>
+            </div>
+            <div class="certification-item">
+                <p>Introduction to Web Development with HTML5, CSS3, and JavaScript — IBM</p>
+            </div>
+            <div class="certification-item">
+                <p>The Complete 2024 Web Development Bootcamp — Udemy</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        entry.target.style.animation = 'fadeInUp 0.5s ease-out';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Three.js background
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('stars-background').appendChild(renderer.domElement);
+
+            const starGeometry = new THREE.BufferGeometry();
+            const starMaterial = new THREE.PointsMaterial({color: 0xFFFFFF});
+
+            const starVertices = [];
+            for (let i = 0; i < 10000; i++) {
+                const x = (Math.random() - 0.5) * 2000;
+                const y = (Math.random() - 0.5) * 2000;
+                const z = -Math.random() * 2000;
+                starVertices.push(x, y, z);
+            }
+
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            const stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+
+            camera.position.z = 1;
+
+            // Add comet
+            const cometGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+            const cometMaterial = new THREE.MeshBasicMaterial({color: 0x00ffff});
+            const comet = new THREE.Mesh(cometGeometry, cometMaterial);
+            scene.add(comet);
+
+            // Comet trail
+            const trailGeometry = new THREE.BufferGeometry();
+            const trailMaterial = new THREE.PointsMaterial({
+                color: 0x00ffff,
+                size: 0.05,
+                transparent: true,
+                opacity: 0.8
+            });
+            const trailPositions = new Float32Array(300 * 3);
+            trailGeometry.setAttribute('position', new THREE.BufferAttribute(trailPositions, 3));
+            const trail = new THREE.Points(trailGeometry, trailMaterial);
+            scene.add(trail);
+
+            let time = 0;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                stars.rotation.y += 0.0002;
+
+                // Comet movement
+                time += 0.01;
+                comet.position.x = Math.cos(time) * 5;
+                comet.position.y = Math.sin(time) * 5;
+                comet.position.z = Math.sin(time * 0.5) * 2;
+
+                // Update trail
+                const positions = trail.geometry.attributes.position.array;
+                for (let i = positions.length - 1; i > 2; i -= 3) {
+                    positions[i] = positions[i - 3];
+                    positions[i - 1] = positions[i - 4];
+                    positions[i - 2] = positions[i - 5];
+                }
+                positions[0] = comet.position.x;
+                positions[1] = comet.position.y;
+                positions[2] = comet.position.z;
+                trail.geometry.attributes.position.needsUpdate = true;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        });
+    </script>
+</body>
+</html>

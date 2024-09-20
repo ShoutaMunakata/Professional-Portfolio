@@ -1,0 +1,620 @@
+<html>
+ <head>
+  <title>
+   ANSH YADAV
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+   body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        #stars-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: transparent;
+            position: relative;
+        }
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+        }
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-pic::after {
+            content: 'Projects';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #1a1a1a;
+            padding: 5px 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .profile-pic:hover::after {
+            opacity: 1;
+        }
+        .chat-icon {
+            font-size: 24px;
+            background-color: rgba(68, 68, 68, 0.5);
+            padding: 10px;
+            border-radius: 0 0 10px 10px;
+            position: absolute;
+            top: 6px;
+            right: 20px;
+            color: white;
+            text-decoration: none;
+        }
+        .chat-icon::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background-color: rgba(68, 68, 68, 0.5);
+            border-radius: 10px 10px 0 0;
+        }
+        .home-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .home-icon:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        .container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .main-content {
+            text-align: center;
+            position: relative;
+        }
+        .main-content img {
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+        }
+        .smoke-grey-div {
+            position: absolute;
+            bottom: 227px;
+            left: -115px;
+            right: -115px;
+            height: 145px;
+            background-color: rgba(128, 128, 128, 0.5);
+            border-radius: 20px;
+            z-index: 0;
+        }
+        .name {
+            font-size: 122px;
+            font-weight: bold;
+            margin: 20px 0;
+            background: linear-gradient(to bottom, white 50%, #ffcccc 50%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 5px;
+            transition: transform 0.3s ease;
+        }
+        .name:hover {
+            transform: scale(0.95);
+        }
+        .title {
+            font-size: 18px;
+            color: #b3b3b3;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: 2px solid #fff;
+            border-radius: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .button:hover {
+            background-color: #fff;
+            color: #1a1a1a;
+        }
+        .scroll-indicator {
+            width: 22.5px;
+            height: 30px;
+            border: 2px solid white;
+            border-radius: 15px;
+            background-color: black;
+            position: relative;
+            margin: 20px auto 0;
+            overflow: hidden;
+        }
+        .scroll-indicator::after {
+            content: '';
+            width: 11.25px;
+            height: 11.25px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scrollAnimation 1.5s infinite;
+        }
+        @keyframes scrollAnimation {
+            0%, 100% { top: 3px; }
+            50% { top: 15.75px; }
+        }
+        .about {
+            display: flex;
+            background-color: rgba(28, 28, 28, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 60px;
+            border-radius: 8px;
+            margin-top: 290px;
+            margin-bottom: 30px;
+            width: 80%;
+            max-width: 1200px;
+            box-sizing: border-box;
+            margin-left: auto;
+            margin-right: auto;
+            transition: box-shadow 0.3s ease;
+            opacity: 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            position: relative;
+        }
+        .about.visible {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+        .about:hover {
+            box-shadow: 0 0 30px rgba(255, 165, 0, 0.8);
+        }
+        .left, .right {
+            margin: 0 20px;
+            flex: 1;
+            opacity: 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+        }
+        .about.visible .left,
+        .about.visible .right {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+        .left {
+            font-size: 2em;
+            font-weight: 700;
+        }
+        .right {
+            font-size: 1.25em;
+            font-weight: 400;
+            transition-delay: 0.4s;
+        }
+        .toggle-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .toggle-icon:hover {
+            color: #ff7f7f;
+        }
+        .exp {
+            display: flex;
+            background-color: rgba(28, 28, 28, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 60px;
+            border-radius: 8px;
+            margin-top: 260px;
+            margin-bottom: 30px;
+            width: 80%;
+            max-width: 1200px;
+            box-sizing: border-box;
+            margin-left: auto;
+            margin-right: auto;
+            transition: box-shadow 0.3s ease;
+            opacity: 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .exp.visible {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+        .exp:hover {
+            box-shadow: 0 0 30px rgba(255, 165, 0, 0.8);
+        }
+        .exp .container {
+            display: flex;
+            align-items: center;
+        }
+        .exp .text {
+            font-size: 2em;
+            font-weight: bold;
+            margin-right: 120px;
+        }
+        .exp .list {
+            list-style: none;
+            padding: 0;
+        }
+        .exp .list-item {
+            background-color: #1e1e1e;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s, transform 0.3s;
+            transform-origin: left;
+        }
+        .exp .list-item:hover {
+            background-color: #333333;
+            transform: scaleX(1.1);
+        }
+        .exp .list-item i {
+            margin-right: 10px;
+        }
+        .color-transition {
+            transition: color 0.3s ease;
+        }
+        .header {
+            text-align: center;
+            font-size: 122px;
+            font-weight: bold;
+            margin-top: 200px;
+            background: linear-gradient(to bottom, white 50%, #ffcccc 50%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 5px;
+        }
+        .work-container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 0 5%;
+        }
+        .work-item {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            width: calc(50% - 15px);
+            max-width: 600px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .work-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .work-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 30px rgba(255, 69, 0, 0.6);
+        }
+        .work-item img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .work-item-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+        .work-item-description {
+            font-size: 16px;
+            color: #b3b3b3;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        .work-item-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff7f7f;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            align-self: flex-start;
+        }
+        .work-item-link:hover {
+            background-color: #ff5f5f;
+        }
+        .link {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            color: #00ffcc;
+            font-size: 12px;
+        }
+        .get-in-touch {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            position: relative;
+        }
+        .get-in-touch .container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .get-in-touch .title {
+            font-size: 10vw;
+            font-weight: bold;
+            background: linear-gradient(to bottom, white 50%, #ffcccc 50%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            transition: transform 0.3s ease;
+        }
+        .get-in-touch .title:hover {
+            transform: scale(0.95);
+        }
+        .get-in-touch .email {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: 2px solid white;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 1.2vw;
+            text-decoration: none;
+            color: white;
+        }
+        .get-in-touch .email:hover {
+            background-color: white;
+            color: #1a1a1a;
+        }
+        .get-in-touch .smoke-grey-div {
+            position: absolute;
+            top: calc(45% - 119px);
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 95%;
+            height: 40%;
+            background-color: rgba(128, 128, 128, 0.5);
+            border-radius: 20px;
+            z-index: 1;
+        }
+  </style>
+ </head>
+ <body>
+  <div id="stars-background"></div>
+  <header>
+   <div class="profile-pic">
+    <a href="/index.html"><img alt="Profile picture of ANSH YADAV" src="ansh.jpg"/></a>
+   </div>
+   <a href="/" class="home-icon">
+    <i class="fas fa-star"></i>
+   </a>
+   <a href="get-in-touch.html" class="chat-icon">
+    <i class="fas fa-comment"></i>
+   </a>
+  </header>
+  <div class="container">
+   <div class="main-content">
+    <img alt="ANSH YADAV smiling" src="ansh.jpg"/>
+    <div class="smoke-grey-div"></div>
+    <div class="name">
+     ANSH YADAV
+    </div>
+    <div class="title color-transition">
+     Game Designer / Web Developer
+    </div>
+    <a class="button color-transition" href="/get-in-touch.html">
+     Get in touch →
+    </a>
+    <div class="scroll-indicator"></div>
+   </div>
+  </div>
+  <div class="about">
+    <a href="about.html" class="toggle-icon">
+      <i class="fas fa-chevron-right"></i>
+    </a>
+    <div class="left">
+        <span class="color-transition">Hi,</span> I'm <span class="color-transition">Ansh,</span> a <span class="color-transition">designer</span> and <span class="color-transition">front-end</span> developer <span class="color-transition">based</span> in <span class="color-transition">India.</span>
+    </div>
+    <div class="right">
+        <span class="color-transition">With</span> experience <span class="color-transition">in</span> multiple <span class="color-transition">disciplines,</span> I <span class="color-transition">work</span> with <span class="color-transition">companies</span> to <span class="color-transition">create</span> intuitive <span class="color-transition">and</span> engaging <span class="color-transition">digital</span> experiences.
+    </div>
+  </div>
+  <div class="exp">
+    <div class="container">
+        <div class="text color-transition">I often work with:</div>
+        <ul class="list">
+            <li class="list-item color-transition"><i class="fas fa-external-link-alt"></i> Startups</li>
+            <li class="list-item color-transition"><i class="fas fa-external-link-alt"></i> Marketing teams</li>
+            <li class="list-item color-transition"><i class="fas fa-external-link-alt"></i> Comapnies</li>
+            <li class="list-item color-transition"><i class="fas fa-external-link-alt"></i> Individuals</li>
+        </ul>
+    </div>
+  </div>
+  <div class="header" id="latest-work">
+   LATEST WORK
+  </div>
+  <div class="work-container">
+   <div class="work-item">
+    <div class="work-item-title">
+     Yati ✨
+    </div>
+    <img alt="Yati project" src="/assets/images/bhargavi.png"/>
+    <div class="work-item-description">
+     A vibrant and intuitive web design project showcasing modern UI/UX principles and responsive design techniques.
+    </div>
+    <a class="work-item-link" href="https://cometvibesstars.wixsite.com/bhargavigupta">View Project</a>
+   </div>
+   <div class="work-item">
+    <div class="work-item-title">
+     Shouta ✨
+    </div>
+    <img alt="Shouta project" src="/assets/images/Shouta.png"/>
+    <div class="work-item-description">
+     An innovative web application demonstrating advanced front-end development skills and creative design solutions.
+    </div>
+    <a class="work-item-link" href="https://cometvibesstars.wixsite.com/annshrunes">View Project</a>
+   </div>
+  </div>
+  <div class="get-in-touch">
+    <div class="smoke-grey-div"></div>
+    <div class="container">
+        <div class="title">GET IN TOUCH</div>
+        <a href="mailto:annshrunes@gmail.com" class="email">annshrunes@gmail.com</a>
+    </div>
+  </div>
+  <script>
+    function isElementInViewport(el) {
+      const rect = el.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      );
+    }
+
+    function handleScroll() {
+      const aboutSection = document.querySelector('.about');
+      const expSection = document.querySelector('.exp');
+      const workItems = document.querySelectorAll('.work-item');
+      if (isElementInViewport(aboutSection)) {
+        aboutSection.classList.add('visible');
+      }
+      if (isElementInViewport(expSection)) {
+        expSection.classList.add('visible');
+      }
+      workItems.forEach((item) => {
+        if (isElementInViewport(item)) {
+          item.classList.add('visible');
+        }
+      });
+      if (aboutSection.classList.contains('visible') && expSection.classList.contains('visible') && Array.from(workItems).every(item => item.classList.contains('visible'))) {
+        window.removeEventListener('scroll', handleScroll);
+      }
+
+      const colorTransitionElements = document.querySelectorAll('.color-transition');
+      colorTransitionElements.forEach(element => {
+        const rect = element.getBoundingClientRect();
+        const distanceFromTop = rect.top;
+        if (distanceFromTop <= 100 && distanceFromTop >= 0) {
+          const percentage = (100 - distanceFromTop) / 100;
+          const color = `rgb(255, ${255 - percentage * 30}, ${255 - percentage * 30})`;
+          element.style.color = color;
+        } else if (distanceFromTop > 100) {
+          element.style.color = 'white';
+        }
+      });
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check on load
+
+    // Three.js background
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('stars-background').appendChild(renderer.domElement);
+
+    const starGeometry = new THREE.BufferGeometry();
+    const starMaterial = new THREE.PointsMaterial({color: 0xFFFFFF});
+
+    const starVertices = [];
+    for (let i = 0; i < 10000; i++) {
+      const x = (Math.random() - 0.5) * 2000;
+      const y = (Math.random() - 0.5) * 2000;
+      const z = -Math.random() * 2000;
+      starVertices.push(x, y, z);
+    }
+
+    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+    const stars = new THREE.Points(starGeometry, starMaterial);
+    scene.add(stars);
+
+    camera.position.z = 1;
+
+    function animateStars() {
+      requestAnimationFrame(animateStars);
+      stars.rotation.y += 0.0002;
+      renderer.render(scene, camera);
+    }
+
+    animateStars();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Add click event to profile picture
+    document.querySelector('.profile-pic').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('latest-work').scrollIntoView({behavior: 'smooth'});
+    });
+  </script>
+ </body>
+</html>
